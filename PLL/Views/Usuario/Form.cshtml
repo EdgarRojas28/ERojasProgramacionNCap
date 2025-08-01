@@ -1,0 +1,104 @@
+﻿@model ML.Usuario
+
+@{
+    ViewBag.Title = "Formulario Usuario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2 class="mb-4">Formulario Usuario</h2>
+
+    @using (Html.BeginForm("Form", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        
+
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card p-3 mb-4">
+                    <div class="row ">
+                        <div class="col-md-6">
+                            @Html.HiddenFor(model => model.IdUsuario)
+
+                            @Html.LabelFor(model => model.UserName)
+                            @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+
+                            @Html.LabelFor(model => model.Nombre, new { @class = "mt-2" })
+                            @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
+                            @Html.LabelFor(model => model.ApellidoPaterno, new { @class = "mt-2" })
+                            @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control" })
+
+                            @Html.LabelFor(model => model.ApellidoMaterno, new { @class = "mt-2" })
+                            @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control" })
+
+
+                            @Html.LabelFor(model => model.Email)
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+
+                            @Html.LabelFor(model => model.Password, new { @class = "mt-2" })
+                            @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
+
+
+                        </div>
+                        <div class="col-md-6">
+
+                            @Html.LabelFor(model => model.Telefono, new { @class = "mt-2" })
+                            @Html.TextBoxFor(model => model.Telefono, new { @class = "form-control" })
+
+                            @Html.LabelFor(model => model.Sexo, new { @class = "mt-2 d-block" })
+                            <div class="form-check form-check-inline">
+                                @Html.RadioButtonFor(model => model.Sexo, "M ", new { @class = "form-check-input", id = "sexoM" })
+                                <label class="form-check-label" for="sexoM">Masculino</label>
+                                <img src="~/Content/images/man.png" width="20" height="20" />
+
+
+                                @Html.RadioButtonFor(model => model.Sexo, "F ", new { @class = "form-check-input", id = "sexoF" })
+                                <label class="form-check-label" for="sexoF">Femenino</label>
+                                <img src="~/Content/images/woman.png" width="20" height="20" />
+                            </div>
+
+                            @Html.LabelFor(model => model.Celular)
+                            @Html.TextBoxFor(model => model.Celular, new { @class = "form-control" })
+
+                            @Html.LabelFor(model => model.FechaNacimiento, new { @class = "mt-2" })
+                            @Html.TextBoxFor(model => model.FechaNacimiento, new { @class = "form-control" })
+
+                            @Html.LabelFor(model => model.CURP, new { @class = "mt-2" })
+                            @Html.TextBoxFor(model => model.CURP, new { @class = "form-control" })
+
+                            @Html.LabelFor(model => model.Rol, new { @class = "mt-2" })
+                            @Html.DropDownListFor(model => model.Rol.IdRol, new SelectList(Model.Rol.Roles, "IdRol", "Nombre"), "Seleccione un Rol", new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-success" name="accion" value="Guardar">Guardar</button>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-danger" name="accion" value="Regresar">Regresar</button>
+                <!--@Html.ActionLink("Regresar", "GetAll", "Usuario", new { @class = "btn btn-danger" })-->
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+        function PrevisualizarImagen(event) {
+        var output = document.getElementById('imgUsuario');
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function () {
+            URL.revokeObjectURL(output.src);
+            }
+    }
+</script>
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/Imagen.js"></script>
+<script src="~/Scripts/Usuario/Dropdownlist.js"></script>
+
+

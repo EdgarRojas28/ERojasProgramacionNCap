@@ -1,0 +1,237 @@
+﻿@model ML.Usuario
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    body {
+        background-color: powderblue;
+    }
+</style>
+<div class="p-3 mb-2 text-bg-primary text-white">
+    <h2 class="mw-100">Mostrar Usuarios</h2>
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        <button type="button" class="btn btn-success w-100" onclick="toggleCampos()" name="accion" value="Busqueda Abierta">
+            Busqueda Abierta
+        </button>
+    </div>
+    <div class="col-md-6">
+        <button class="btn btn-warning w-100" name="accion" value="Carga Masiva">
+            Carga Masiva
+        </button>
+    </div>
+</div>
+
+
+<div id="camposExtra" style="display: none; margin-top: 15px;">
+    <form asp-action="GetAll" method="post">
+        <div class="form-group row">
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label>Nombre</label>
+                    <input type="text" class="form-control" name="Nombre" />
+                </div>
+                <div class="col-md-4">
+                    <label>Apellido Paterno</label>
+                    <input type="text" class="form-control" name="ApellidoPaterno" />
+                </div>
+                <div class="col-md-4">
+                    <label>Apellido Materno</label>
+                    <input type="text" class="form-control" name="ApellidoMaterno" />
+                </div>
+            </div>
+
+            <div class="form-group row mt-3">
+                <div class="col-md-4">
+                    <label>Rol</label>
+                    @Html.DropDownListFor(model => model.Rol.IdRol,
+                             new SelectList(Model.Rol.Roles, "IdRol", "Nombre", Model.Rol.IdRol),
+                             "Selecciona un rol",
+                             new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group row mt-3">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-warning w-100" name="accion" value="Buscar Datos">Buscar Datos</button>
+                </div>
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-secondary w-100" name="accion" value="Cancelar Busqueda">Cancelar Busqueda</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
+<p class="row">
+    <button class="btn btn-danger">
+        @Html.ActionLink("Agregar Usuario", "Form", "Usuario", new { IdUsuario = 0, BorrarSesion = true }, new { @class = "btn btn-danger" })
+
+        <!--ID 0 propiedad de borrar sesion que sea true-->
+    </button>
+    <br>
+    <div class="col-md-6 col-sm-12">
+        @if (Model.Usuarios != null)
+        {
+            <table class="table table-hover col border border-dark m-6">
+                <thead>
+                    <tr>
+                        <th class="border border-dark m-6">Editar</th>
+                        <th class="border border-dark m-6">IdUsuario</th>
+                        <th class="border border-dark m-6">Username</th>
+                        <th class="border border-dark m-6">Nombre</th>
+                        <th class="border border-dark m-6">Apellido Paterno</th>
+                        <th class="border border-dark m-6">Apellido Materno</th>
+                        <th class="border border-dark m-6">Email</th>
+                        <th class="border border-dark m-6">Password</th>
+                        <th class="border border-dark m-6">Sexo</th>
+                        <th class="border border-dark m-6">Telefono</th>
+                        <th class="border border-dark m-6">Celular</th>
+                        <th class="border border-dark m-6">Fecha de Nacimiento</th>
+                        <th class="border border-dark m-6">CURP</th>
+                        <th class="border border-dark m-6">IdRol</th>
+                        <th class="border border-dark m-6">Eliminar</th>
+                        <!--<th class="border border-dark m-2">Imagen</th>-->
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (ML.Usuario usuario in Model.Usuarios)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("Form", "Usuario", new { IdUsuario = usuario.IdUsuario })" class="btn btn-warning">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z" />
+                                    </svg>
+                                </a>
+                            </td>
+                            <td class="border border-dark m-6"><h3>@usuario.IdUsuario</h3></td>
+                            <td class="border border-dark m-6">@usuario.UserName</td>
+                            <td class="border border-dark m-6">@usuario.Nombre</td>
+                            <td class="border border-dark m-6">@usuario.ApellidoPaterno</td>
+                            <td class="border border-dark m-6">@usuario.ApellidoMaterno</td>
+                            <td class="border border-dark m-6">
+                                @usuario.Email
+                                @if (usuario.Email.Contains("outlook.com"))
+                                {
+                                    <br />
+                                    <img src="@Url.Content("~/Content/images/Outlook.png")" alt="Centered Image" width="30" height="30" />
+                                }@if (usuario.Email.Contains("gmail.com"))
+                                {
+                                    <br />
+                                    <img src="@Url.Content("~/Content/images/Gmail.png")" alt="Centered Image" width="30" height="30" />
+                                }
+                            </td>
+                            <td class="border border-dark m-6">@usuario.Password</td>
+                            <td class="border border-dark m-6">
+                                @usuario.Sexo <br>
+                                @if (usuario.Sexo == "M ")
+                                {
+                                    <img src="@Url.Content("~/Content/images/man.png")" alt="Centered Image" width="30" height="30" />
+                                }@if (usuario.Sexo == "F ")
+                                {
+                                    <img src="@Url.Content("~/Content/images/woman.png")" alt="Centered Image " width="30" height="30" />
+                                }
+                            </td>
+                            <td class="border border-dark m-6">@usuario.Telefono</td>
+                            <td class="border border-dark m-6">@usuario.Celular</td>
+                            <td class="border border-dark m-6">@usuario.FechaNacimiento</td>
+                            <td class="border border-dark m-6">@usuario.CURP</td>
+                            <td class="border border-dark m-6">
+                                @usuario.Rol.Nombre
+                                @if (usuario.Rol.Nombre == "Carpintero")
+                                {
+                                    <img src="@Url.Content("~/Content/images/Logo1.png")" alt="Centered Image " width="30" height="30" />
+                                }@if (usuario.Rol.Nombre == "Programador")
+                                {
+                                    <img src="@Url.Content("~/Content/images/Logo2.png")" alt="Centered Image " width="30" height="30" />
+                                }
+                                @if (usuario.Rol.Nombre == "Desarrollador")
+                                {
+                                    <img src="@Url.Content("~/Content/images/Desarrollador.png")" alt="Centered Image " width="30" height="30" />
+                                }
+                            </td>
+                            <td class="border border-dark m-6">
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalEliminar_@usuario.IdUsuario">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                    </svg>
+                                </button>
+                            </td>
+
+                            <td>
+                                @*if (usuario.ImagenUsuario?.Imagen != null)
+                        {
+                        var base64 = Convert.ToBase64String(usuario.ImagenUsuario.Imagen);
+                        <img src="data:image/png;base64,@base64" width="60" height="60" />
+                        }
+
+                        *@
+                                <div class="modal fade" id="modalEliminar_@usuario.IdUsuario" tabindex="-1" aria-labelledby="exampleModalLabel_@usuario.IdUsuario" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+
+                                                <h5 class="modal-title" id="exampleModalLabel_@usuario.IdUsuario">Borrar Registro</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                ¿Estás seguro que quieres borrar este usuario?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-success" data-bs-dismiss="modal">No, regresar</button>
+                                                <a class="btn btn-danger" href="@Url.Action("DeleteAll", "Usuario", new { IdUsuario = usuario.IdUsuario })">Sí</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-danger">
+                No existe registros para la tabla Usuarios. Error: @ViewBag.Error1
+            </div>
+        }
+    </div>
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+
+    <script>
+        let visible = false;
+
+        function toggleCampos() {
+            visible = !visible;
+
+            const campos = document.getElementById("camposExtra");
+            const boton = event.target;
+
+            if (visible) {
+                campos.style.display = "block";
+                boton.innerText = "NO Buscar X";
+            } else {
+                campos.style.display = "none";
+                boton.innerText = "Buscar?";
+            }
+        }
+    </script>
+
+
