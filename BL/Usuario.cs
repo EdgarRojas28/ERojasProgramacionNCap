@@ -4,7 +4,68 @@ namespace BL
 {
    public class Usuario
     {
-        public static ML.Result GetAll()
+        //No llega aqui el dato de usuario
+        public static ML.Result GetAll(ML.Usuario usuario)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL.ErojasProgramacionNcapasContext context = new DL.ErojasProgramacionNcapasContext())
+                {
+                    
+                    //var listaUsuario = context.UsuarioGetAllDTO.FromSqlRaw($"EXEC UsuarioGetAll '{usuario.Nombre}', '{usuario.ApellidoPaterno}', '{usuario.ApellidoMaterno}', '{usuario.Rol.IdRol}'").ToList();
+                    //var listaUsuario = context.UsuarioGetAllDTO.FromSqlRaw($"EXEC UsuarioGetAllView '{usuario.Nombre}', '{usuario.ApellidoPaterno}', '{usuario.ApellidoMaterno}', '{usuario.Rol.IdRol}'").ToList();
+                    var listaUsuario = context.UsuarioGetAllDTO.FromSqlRaw($"EXEC UsuarioGetAllDynamic '{usuario.Nombre}', '{usuario.ApellidoPaterno}', '{usuario.ApellidoMaterno}', '{usuario.Rol.IdRol}'").ToList();
+
+                    //var listaUsuario = context.UsuarioGetAllDTO.FromSqlRaw("UsuarioGetAll", $"{usuario.Nombre}, {usuario.ApellidoPaterno}, {usuario.ApellidoMaterno}" ).ToList(); // lista con 2 materias  
+
+                    if (listaUsuario.Count > 0)
+                    {
+
+                        result.Objects = new List<object>();
+
+                        foreach (var usuarioObj in listaUsuario)
+                        {
+                            ML.Usuario usuario2 = new ML.Usuario();
+
+                            usuario2.IdUsuario = usuarioObj.IdUsuario;
+                            usuario2.UserName = usuarioObj.UserName;
+                            usuario2.Nombre = usuarioObj.Nombre;
+                            usuario2.ApellidoPaterno = usuarioObj.ApellidoPaterno;
+                            usuario2.ApellidoMaterno = usuarioObj.ApellidoMaterno;
+                            usuario2.Email = usuarioObj.Email;
+                            usuario2.Password = usuarioObj.Password;
+                            usuario2.Sexo = usuarioObj.Sexo;
+                            usuario2.Telefono = usuarioObj.Telefono;
+                            usuario2.Celular = usuarioObj.Celular;
+                            //usuar2io.FechaNacimiento = usuarioObj.FechaNacimiento;
+                            usuario2.CURP = usuarioObj.CURP;
+                            usuario2.Rol = new ML.Rol
+                            {
+                                IdRol = usuarioObj.IdRol,
+                                Nombre = usuarioObj.NombreRol
+                            };
+                            result.Objects.Add(usuario2);
+                        }
+                        result.Correct = true;
+                    }
+                    else {
+                        result.Correct = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+
+            return result;
+
+        }
+
+        /*public static ML.Result GetAll()
         {
           ML.Result result = new ML.Result();
             try
@@ -65,7 +126,7 @@ namespace BL
 
             return result;
 
-        }
+        }*/
 
         /*
 
@@ -396,8 +457,3 @@ namespace BL
     }
 
 }
-
-    //Adding an abstract auto-property or overrinding an inherited auto-property requieress restarting aplication
-    ////The call is ambiguos between the following methods
-    //Type Usuario already defines a member called GetAll with the same parameter types
-    //Updating the modifiers of method requiress restarting the aplication
