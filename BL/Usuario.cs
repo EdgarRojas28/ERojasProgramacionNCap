@@ -13,9 +13,9 @@ namespace BL
                 using (DL.ErojasProgramacionNcapasContext context = new DL.ErojasProgramacionNcapasContext())
                 {
                     
-                    //var listaUsuario = context.UsuarioGetAllDTO.FromSqlRaw($"EXEC UsuarioGetAll '{usuario.Nombre}', '{usuario.ApellidoPaterno}', '{usuario.ApellidoMaterno}', '{usuario.Rol.IdRol}'").ToList();
+                    var listaUsuario = context.UsuarioGetAllDTO.FromSqlRaw($"EXEC UsuarioGetAll '{usuario.Nombre}', '{usuario.ApellidoPaterno}', '{usuario.ApellidoMaterno}', '{usuario.Rol.IdRol}'").ToList();
                     //var listaUsuario = context.UsuarioGetAllDTO.FromSqlRaw($"EXEC UsuarioGetAllView '{usuario.Nombre}', '{usuario.ApellidoPaterno}', '{usuario.ApellidoMaterno}', '{usuario.Rol.IdRol}'").ToList();
-                    var listaUsuario = context.UsuarioGetAllDTO.FromSqlRaw($"EXEC UsuarioGetAllDynamic '{usuario.Nombre}', '{usuario.ApellidoPaterno}', '{usuario.ApellidoMaterno}', '{usuario.Rol.IdRol}'").ToList();
+                    //var listaUsuario = context.UsuarioGetAllDTO.FromSqlRaw($"EXEC UsuarioGetAllDynamic '{usuario.Nombre}', '{usuario.ApellidoPaterno}', '{usuario.ApellidoMaterno}', '{usuario.Rol.IdRol}'").ToList();
 
                     //var listaUsuario = context.UsuarioGetAllDTO.FromSqlRaw("UsuarioGetAll", $"{usuario.Nombre}, {usuario.ApellidoPaterno}, {usuario.ApellidoMaterno}" ).ToList(); // lista con 2 materias  
 
