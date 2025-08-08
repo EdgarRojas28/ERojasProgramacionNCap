@@ -38,7 +38,7 @@ namespace BL
                             usuario2.Sexo = usuarioObj.Sexo;
                             usuario2.Telefono = usuarioObj.Telefono;
                             usuario2.Celular = usuarioObj.Celular;
-                            //usuar2io.FechaNacimiento = usuarioObj.FechaNacimiento;
+                            usuario2.FechaNacimiento = usuarioObj.FechaNacimiento;
                             usuario2.CURP = usuarioObj.CURP;
                             usuario2.Rol = new ML.Rol
                             {
@@ -64,6 +64,102 @@ namespace BL
             return result;
 
         }
+
+        public static ML.Result AddLINQ(ML.Usuario usuario)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (DL.ErojasProgramacionNcapasContext context = new DL.ErojasProgramacionNcapasContext())
+                {
+                    
+                    var idUsuarioResult = context.Usuarios
+                        .FromSqlRaw($@"EXEC UsuarioAdd 
+                    @UserName = '{usuario.UserName}',
+                    @Nombre = '{usuario.Nombre}',
+                    @ApellidoPaterno = '{usuario.ApellidoPaterno}',
+                    @ApellidoMaterno = '{usuario.ApellidoMaterno}',
+                    @Email = '{usuario.Email}',
+                    @Password = '{usuario.Password}',
+                    @Sexo = '{usuario.Sexo}',
+                    @Telefono = '{usuario.Telefono}',
+                    @Celular = '{usuario.Celular}',
+                    @FechaNacimiento = '{usuario.FechaNacimiento?.ToString("yyyy-MM-dd")}',
+                    @Curp = '{usuario.CURP}',
+                    @IdRol = {usuario.Rol.IdRol}")
+                        .AsEnumerable()
+                        .FirstOrDefault();
+
+                    if (idUsuarioResult != null)
+                    {
+                        result.Object = idUsuarioResult.IdUsuario; 
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                        result.ErrorMessage = "No se pudo obtener el Id del usuario insertado.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+
+            return result;
+        }
+
+        public static ML.Result UpdateLINQ(ML.Usuario usuario)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (DL.ErojasProgramacionNcapasContext context = new DL.ErojasProgramacionNcapasContext())
+                {
+                    int rowsAffected = context.Database.ExecuteSqlRaw($@"EXEC UsuarioUpdate 
+                    @IdUsuario = {usuario.IdUsuario}, 
+                    @UserName = '{usuario.UserName}', 
+                    @Nombre = '{usuario.Nombre}', 
+                    @ApellidoPaterno = '{usuario.ApellidoPaterno}', 
+                    @ApellidoMaterno = '{usuario.ApellidoMaterno}', 
+                    @Email = '{usuario.Email}', 
+                    @Password = '{usuario.Password}', 
+                    @Sexo = '{usuario.Sexo}', 
+                    @Telefono = '{usuario.Telefono}', 
+                    @Celular = '{usuario.Celular}', 
+                    @FechaNacimiento = '{usuario.FechaNacimiento?.ToString("yyyy-MM-dd")}', 
+                    @Curp = '{usuario.CURP}', 
+                    @IdRol = {usuario.Rol.IdRol}");
+
+                    if (rowsAffected > 0)
+                    {
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                        result.ErrorMessage = "No se pudo actualizar el usuario.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+
+            return result;
+        }
+
+
+
+
 
         /*public static ML.Result GetAll()
         {
@@ -331,7 +427,7 @@ namespace BL
 
 
 
-        public static ML.Result AddLINQ(ML.Usuario usuario)
+        public static ML.Result AddLINQ2(ML.Usuario usuario)
         {
             ML.Result result = new ML.Result();
 
@@ -374,7 +470,7 @@ namespace BL
             return result;
         }
 
-        public static ML.Result UpdateLINQ(ML.Usuario usuario)
+        public static ML.Result UpdateLINQ2(ML.Usuario usuario)
         {
             ML.Result result = new ML.Result();
 

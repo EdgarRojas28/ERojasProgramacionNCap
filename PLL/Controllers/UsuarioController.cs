@@ -142,8 +142,26 @@ namespace PLL.Controllers
 
 
         [HttpPost]
-        public IActionResult Form(ML.Usuario usuario, string accion)
+        public IActionResult Form(ML.Usuario usuario, string accion)//QUITAR EL ACCION 
         {
+
+            if (usuario.Rol == null)
+            {
+                usuario.Rol = new ML.Rol();
+            }
+
+            var resultRoles = BL.Rol.GetAll();
+            if (resultRoles.Correct)
+            {                
+                usuario.Rol.Roles = resultRoles.Objects;
+            }
+
+            if (!ModelState.IsValid)
+            {                
+                usuario.Rol.Roles = resultRoles.Objects;
+                return View(usuario);
+            }
+
             if (accion == "Regresar")
             {
                 return RedirectToAction("GetAll");
@@ -152,17 +170,21 @@ namespace PLL.Controllers
             if (accion == "Guardar")
             {
                 if (accion == "Regresar")
+
                 {
                     return RedirectToAction("GetAll");
                 }
-
+               
                 var blUsuario = new BL.Usuario();
+               
+
 
                 if (accion == "Guardar")
                 {
                     if (usuario.IdUsuario == 0) // Alta
                     {
                         var resultUsuario = BL.Usuario.AddLINQ(usuario);
+
 
                         if (resultUsuario.Correct && resultUsuario.Object != null)
                         {
@@ -189,13 +211,17 @@ namespace PLL.Controllers
                         }
                     }
                 }
-                var blRol = new BL.Rol();
-                var resultRoles = BL.Rol.GetAll();
-                if (resultRoles.Correct)
+                
+
+
+                /*
+                if (!ModelState.IsValid)
                 {
-                    usuario.Rol = new ML.Rol();
-                    usuario.Rol.Roles = resultRoles.Objects;
-                }
+                    // Si hay errores de validación, devolver la vista con los errores
+                    // (La vista los mostrará con ayuda de Razor)
+                    model.Rol.Roles = ObtenerRoles(); // Vuelve a cargar combos si es necesario
+                    return View(model);
+                }*/
             }
             return View(usuario);
         }
