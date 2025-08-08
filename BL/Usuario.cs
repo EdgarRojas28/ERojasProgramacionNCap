@@ -60,22 +60,16 @@ namespace BL
                 result.ErrorMessage = ex.Message;
                 result.Ex = ex;
             }
-
             return result;
-
         }
-
         public static ML.Result AddLINQ(ML.Usuario usuario)
         {
             ML.Result result = new ML.Result();
-
             try
             {
                 using (DL.ErojasProgramacionNcapasContext context = new DL.ErojasProgramacionNcapasContext())
-                {
-                    
-                    var idUsuarioResult = context.Usuarios
-                        .FromSqlRaw($@"EXEC UsuarioAdd 
+                {                    
+                    var idUsuarioResult = context.Usuarios.FromSqlRaw($@"EXEC UsuarioAdd 
                     @UserName = '{usuario.UserName}',
                     @Nombre = '{usuario.Nombre}',
                     @ApellidoPaterno = '{usuario.ApellidoPaterno}',
@@ -87,10 +81,7 @@ namespace BL
                     @Celular = '{usuario.Celular}',
                     @FechaNacimiento = '{usuario.FechaNacimiento?.ToString("yyyy-MM-dd")}',
                     @Curp = '{usuario.CURP}',
-                    @IdRol = {usuario.Rol.IdRol}")
-                        .AsEnumerable()
-                        .FirstOrDefault();
-
+                    @IdRol = {usuario.Rol.IdRol}").AsEnumerable().FirstOrDefault();
                     if (idUsuarioResult != null)
                     {
                         result.Object = idUsuarioResult.IdUsuario; 
@@ -109,14 +100,11 @@ namespace BL
                 result.ErrorMessage = ex.Message;
                 result.Ex = ex;
             }
-
             return result;
         }
-
         public static ML.Result UpdateLINQ(ML.Usuario usuario)
         {
             ML.Result result = new ML.Result();
-
             try
             {
                 using (DL.ErojasProgramacionNcapasContext context = new DL.ErojasProgramacionNcapasContext())
@@ -135,7 +123,6 @@ namespace BL
                     @FechaNacimiento = '{usuario.FechaNacimiento?.ToString("yyyy-MM-dd")}', 
                     @Curp = '{usuario.CURP}', 
                     @IdRol = {usuario.Rol.IdRol}");
-
                     if (rowsAffected > 0)
                     {
                         result.Correct = true;
@@ -153,14 +140,8 @@ namespace BL
                 result.ErrorMessage = ex.Message;
                 result.Ex = ex;
             }
-
             return result;
         }
-
-
-
-
-
         /*public static ML.Result GetAll()
         {
           ML.Result result = new ML.Result();
@@ -223,7 +204,6 @@ namespace BL
             return result;
 
         }*/
-
         /*
 
         private readonly DL.ErojasProgramacionNcapasContext _context;
@@ -372,7 +352,6 @@ namespace BL
           }
 
           */
-
         public static ML.Result GetByIdLINQ(int idUsuario)
         {
             ML.Result result = new ML.Result();
@@ -423,14 +402,9 @@ namespace BL
 
             return result;
         }
-
-
-
-
         public static ML.Result AddLINQ2(ML.Usuario usuario)
         {
             ML.Result result = new ML.Result();
-
             try
             {
                 using (DL.ErojasProgramacionNcapasContext context = new DL.ErojasProgramacionNcapasContext())
@@ -452,10 +426,8 @@ namespace BL
                         Curp = usuario.CURP,
                         IdRol = usuario.Rol.IdRol
                     };
-
                     context.Usuarios.Add(usuarioEF);
                     context.SaveChanges();
-
                     int idUsuario = usuarioEF.IdUsuario;
                     result.Object = idUsuario;
                     result.Correct = true;
@@ -466,21 +438,16 @@ namespace BL
                 result.Correct = false;
                 result.ErrorMessage = ex.Message;
             }
-
             return result;
         }
-
         public static ML.Result UpdateLINQ2(ML.Usuario usuario)
         {
             ML.Result result = new ML.Result();
-
             try
             {
                 using (DL.ErojasProgramacionNcapasContext context = new DL.ErojasProgramacionNcapasContext())
                 {
-                    var usuarioExistente = context.Usuarios
-                    .FirstOrDefault(u => u.IdUsuario == usuario.IdUsuario);
-
+                    var usuarioExistente = context.Usuarios.FirstOrDefault(u => u.IdUsuario == usuario.IdUsuario);
                     if (usuarioExistente != null)
                     {
                         usuarioExistente.UserName = usuario.UserName;
@@ -497,7 +464,6 @@ namespace BL
                             : null;
                         usuarioExistente.Curp = usuario.CURP;
                         usuarioExistente.IdRol = usuario.Rol.IdRol;
-
                         context.SaveChanges();
                         result.Correct = true;
                     }
@@ -513,14 +479,11 @@ namespace BL
                 result.Correct = false;
                 result.ErrorMessage = ex.Message;
             }
-
             return result;
         }
-
         public static ML.Result DeleteLINQ(int idUsuario)
         {
             ML.Result result = new ML.Result();
-
             try
             {
                 using (DL.ErojasProgramacionNcapasContext context = new DL.ErojasProgramacionNcapasContext())
@@ -545,11 +508,7 @@ namespace BL
                 result.Correct = false;
                 result.ErrorMessage = ex.Message;
             }
-
             return result;
-        }
-
-       
+        }       
     }
-
 }

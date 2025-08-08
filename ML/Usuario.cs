@@ -11,7 +11,7 @@ namespace ML
     {
 
         public List<Usuario>? Usuarios { get; set; }
-        //public List<object>? Usuarios { get; set; }
+        
 
             public ML.Rol? Roles { get; set; }
             public ML.Rol? Rol { get; set; }
@@ -98,20 +98,16 @@ namespace ML
         [Required(ErrorMessage = "Se requiere una Curp ")]
         [MinLength(17, ErrorMessage = "Se requiere una Curp Valida ")]
         [MaxLength(20, ErrorMessage = "Se requiere una Curp ")]
-        public string? CURP { get; set; }
-            
-            /*public List<ImagenUsuario> ImagenesUsuario { get; set; } = new List<ImagenUsuario>();
+        public string? CURP { get; set; }                        
+        }
+
+    }
+
+/*public List<ImagenUsuario> ImagenesUsuario { get; set; } = new List<ImagenUsuario>();
             public ML.ImagenUsuario ImagenUsuario { get; set; }
 
             //public ML.Municipio Municipio { get; set; }
             //public ML.Colonia Colonia { get; set; }
 
             public ML.Direccion Direccion { get; set; }*/
-
-
-
-        }
-
-    }
-
 
