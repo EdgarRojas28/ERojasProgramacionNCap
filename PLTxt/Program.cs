@@ -52,8 +52,6 @@ class Program
         {
             //Console.WriteLine(parts[0]);
             error = error + "Error Aqui Username :" + parts[0] + "| ";
-
-
         }
 
         //Console.WriteLine(parts[1]);//Nombre YA
@@ -61,7 +59,6 @@ class Program
         {
             //Console.WriteLine(parts[1]);
             error = error + "Error Aqui Nombre: " + parts[1] + "| ";
-
         }
 
         //Console.WriteLine(parts[2]);//ApellidoPaterno YA
@@ -69,7 +66,6 @@ class Program
         {
             //Console.WriteLine(parts[2]);
             error = error + "Error Aqui ApellidoPaterno: " + parts[2] + "| ";
-
         }
 
         //Console.WriteLine(parts[3]);//ApellidoMaterno YA
@@ -77,7 +73,6 @@ class Program
         {
             //Console.WriteLine(parts[3]);
             error = error + "Error Aqui ApellidoMaterno: " + parts[3] + "| ";
-
         }
 
         //Console.WriteLine(parts[4]);//Email YA
@@ -85,7 +80,6 @@ class Program
         {
             //Console.WriteLine(parts[4]);
             error = error + "Error Aqui Email: " + parts[4] + "| ";
-
         }
 
         //Console.WriteLine(parts[5]);//Password Ya?? Checar Expresion Reuglar
@@ -93,7 +87,6 @@ class Program
         {
             //Console.WriteLine(parts[5]);
             error = error + "Error Aqui Password: " + parts[5] + "| ";
-
         }
 
         //Console.WriteLine(parts[6]);//Sexo YA
@@ -101,7 +94,6 @@ class Program
         {
             //Console.WriteLine(parts[6]);
             error = error + "Error Aqui Sexo: " + parts[6] + "| ";
-
         }
 
         //Console.WriteLine(parts[7]);//Telefono YA
@@ -109,7 +101,6 @@ class Program
         {
             //Console.WriteLine(parts[7]);
             error = error + "Error Aqui Telefono: " + parts[7] + "| ";
-
         }
 
         //Console.WriteLine(parts[8]);//Celular YA
@@ -117,7 +108,6 @@ class Program
         {
             //Console.WriteLine(parts[8]);
             error = error + "Error Aqui Celular: " + parts[8] + "| ";
-
         }
 
         //Console.WriteLine(parts[9]);//FechaNacimiento Ya
@@ -125,7 +115,6 @@ class Program
         {
             //Console.WriteLine(parts[9]);
             error = error + "Error Aqui FechaNacimiento: " + parts[9] + "| ";
-
         }
 
         //Console.WriteLine(parts[10]);//Curp YA
@@ -133,16 +122,13 @@ class Program
         {
             //Console.WriteLine(parts[10]);
             error = error + "Error Aqui Curp: " + parts[10] + "| ";
-
         }
-
 
         //Console.WriteLine(parts[11]);//IdRol
         if (!Regex.IsMatch(parts[11], @"^[1-6]$"))
         {
             //Console.WriteLine(parts[11]);
             error = error + "Error Aqui IdRol: " + parts[11] + "| ";
-
         }
 
         return error;
