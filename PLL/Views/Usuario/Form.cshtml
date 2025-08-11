@@ -3,16 +3,24 @@
 @{
     ViewBag.Title = "Formulario Usuario";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="~/css/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+
+    <link href="~/css/jquery-ui.css" type="text/css" />
+    <link href="~/css/jquery-ui.min.css" type="text/css" />
+
+
+
 }
 
 <div class="container">
-    <h2 class="mb-4">Formulario Usuario</h2>
+    <h6 class="mb-4">Formulario Usuario</h6>
 
-    @using (Html.BeginForm("Form", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("Form", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data", @onsubmit = "return validarFormulario();" }))
     {
-        
-
-
         <div class="row">
             <div class="col-md-6">
                 <div class="card p-3 mb-4">
@@ -21,85 +29,440 @@
                             @Html.HiddenFor(model => model.IdUsuario)
 
                             @Html.LabelFor(model => model.UserName)
-                            @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+                            @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", onblur = "return VaciosLN(this, event)", onkeypress = "return LetrasYNumeros(this,event)", @id = "txtUserName" })
+                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger fw-bold", @style = "font-size: 14px;" })
+
+
 
                             @Html.LabelFor(model => model.Nombre, new { @class = "mt-2" })
-                            @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
+                            @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", onblur = "return VaciosSL(this, event)", onkeypress = "return SoloLetras(this,event)", @id = "txtNombre" })
+                            @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger fw-bold", @style = "font-size: 14px;" })
+
                             @Html.LabelFor(model => model.ApellidoPaterno, new { @class = "mt-2" })
-                            @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control" })
+                            @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control", onblur = "return VaciosSL(this, event)", onkeypress = "return SoloLetras(this,event)", @id = "txtApellidoPaterno" })
+                            @Html.ValidationMessageFor(model => model.ApellidoPaterno, "", new { @class = "text-danger fw-bold", @style = "font-size: 14px;" })
+                            <span class="error-message"></span>
 
                             @Html.LabelFor(model => model.ApellidoMaterno, new { @class = "mt-2" })
-                            @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control" })
-
+                            @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control", onblur = "return VaciosSL(this, event)", onkeypress = "return SoloLetras(this,event)", @id = "txtApellidoMaterno" })
+                            @Html.ValidationMessageFor(model => model.ApellidoMaterno, "", new { @class = "text-danger fw-bold", @style = "font-size: 14px;" })
+                            <span class="error-message"></span>
 
                             @Html.LabelFor(model => model.Email)
-                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", onblur = "return Correos(this,event)", @id = "txtEmail" })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger fw-bold", @style = "font-size: 14px;" })
+                            <span class="error-message"></span>
 
                             @Html.LabelFor(model => model.Password, new { @class = "mt-2" })
-                            @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
-
-
+                            @Html.TextBoxFor(model => model.Password, new { @class = "form-control", onblur = "return ContraS(this,event)", @id = "txtPassword" })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger fw-bold", @style = "font-size: 14px;" })
+                            <span class="error-message"></span>
                         </div>
-                        <div class="col-md-6">
 
+                        <div class="col-md-6">
                             @Html.LabelFor(model => model.Telefono, new { @class = "mt-2" })
-                            @Html.TextBoxFor(model => model.Telefono, new { @class = "form-control" })
+                            @Html.TextBoxFor(model => model.Telefono, new { @class = "form-control", onblur = "return VaciosSN(this, event)", onkeypress = "return SoloNumeros(this,event)", @id = "txtTelefono" })
+                            @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger fw-bold", @style = "font-size: 14px;" })
+
 
                             @Html.LabelFor(model => model.Sexo, new { @class = "mt-2 d-block" })
                             <div class="form-check form-check-inline">
                                 @Html.RadioButtonFor(model => model.Sexo, "M ", new { @class = "form-check-input", id = "sexoM" })
                                 <label class="form-check-label" for="sexoM">Masculino</label>
-                                <img src="~/Content/images/man.png" width="20" height="20" />
+                                
                             </div>
-                                <div class="form-check form-check-inline">
+                            @Html.ValidationMessageFor(model => model.Sexo, "", new { @class = "text-danger fw-bold", @style = "font-size: 14px;" })
+                            <span id="sexo-error" class="text-danger" style="display:none;"></span>
 
+                            <div class="form-check form-check-inline">
                                 @Html.RadioButtonFor(model => model.Sexo, "F ", new { @class = "form-check-input", id = "sexoF" })
                                 <label class="form-check-label" for="sexoF">Femenino</label>
-                                <img src="~/Content/images/woman.png" width="20" height="20" />
+                                
                             </div>
 
                             @Html.LabelFor(model => model.Celular)
-                            @Html.TextBoxFor(model => model.Celular, new { @class = "form-control" })
-
+                            @Html.TextBoxFor(model => model.Celular, new { @class = "form-control", onblur = "return VaciosSN(this, event)", onkeypress = "return SoloNumeros(this,event)", @id = "txtCelular" })
+                            @Html.ValidationMessageFor(model => model.Celular, "", new { @class = "text-danger fw-bold", @style = "font-size: 14px;" })
+                            <span class="error-message"></span>
+                            
+                            
                             @Html.LabelFor(model => model.FechaNacimiento, new { @class = "mt-2" })
-                            @Html.TextBoxFor(model => model.FechaNacimiento, new { @class = "form-control" })
+                            @Html.TextBoxFor(model => model.FechaNacimiento, new { @class = "form-control", @id = "datepicker", @autocomplete = "off" })
+                            @Html.ValidationMessageFor(model => model.FechaNacimiento, "", new { @class = "text-danger fw-bold" })
+
+                            
+                            
 
                             @Html.LabelFor(model => model.CURP, new { @class = "mt-2" })
-                            @Html.TextBoxFor(model => model.CURP, new { @class = "form-control" })
+                            @Html.TextBoxFor(model => model.CURP, new { @class = "form-control", onblur = "return VaciosCURP(this,event)", @id = "txtCurp" })
+                            @Html.ValidationMessageFor(model => model.CURP, "", new { @class = "text-danger fw-bold", @style = "font-size: 14px;" })
+                            <span class="error-message"></span>
+
+
 
                             @Html.LabelFor(model => model.Rol, new { @class = "mt-2" })
-                            @Html.DropDownListFor(model => model.Rol.IdRol, new SelectList(Model.Rol.Roles, "IdRol", "Nombre"), "Seleccione un Rol", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.Rol.IdRol, new SelectList(Model.Rol.Roles, "IdRol", "Nombre"), "Seleccione un Rol", new { @class = "form-control", @id = "IdRol" })
+                            <span id="rol-error" class="text-danger" style="display:none;"></span>
+
+                            
+                            <a href="~/Documents/Ejemplo.txt" target="_blank"><button>Abrir</button></a>
+
+
                         </div>
                     </div>
-
                 </div>
             </div>
-
         </div>
+
         <div class="row mt-3">
             <div class="col-md-2">
                 <button type="submit" class="btn btn-success" name="accion" value="Guardar">Guardar</button>
             </div>
             <div class="col-md-2">
                 <button class="btn btn-danger" name="accion" value="Regresar">Regresar</button>
-                <!--@Html.ActionLink("Regresar", "GetAll", "Usuario", new { @class = "btn btn-danger" })-->
             </div>
         </div>
     }
 </div>
 
 <script>
-        function PrevisualizarImagen(event) {
-        var output = document.getElementById('imgUsuario');
-        output.src = URL.createObjectURL(event.target.files[0]);
-        output.onload = function () {
-            URL.revokeObjectURL(output.src);
-            }
+
+    DatePicker();
+    function DatePicker() {
+        $("#datepicker").datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "1900:2025"
+        });
     }
+
+
+    function validarFormulario() {
+        var valido = true;
+        var userName = document.getElementById("txtUserName");
+        var nombre = document.getElementById("txtNombre");
+        var apellidoP = document.getElementById("txtApellidoPaterno");
+        var apellidoM = document.getElementById("txtApellidoMaterno");
+        var email = document.getElementById("txtEmail");
+        var password = document.getElementById("txtPassword");
+        var telefono = document.getElementById("txtTelefono");
+        var celular = document.getElementById("txtCelular");
+        var curp = document.getElementById("txtCurp");
+        var rolId = document.getElementById("IdRol").value;
+
+
+        if (!LetrasYNumeros(userName, { key: userName.value })) valido = false;
+        if (!SoloLetras(nombre, { key: nombre.value })) valido = false;
+        if (!SoloLetras(apellidoP, { key: apellidoP.value })) valido = false;
+        if (!SoloLetras(apellidoM, { key: apellidoM.value })) valido = false;
+        if (!Correos(email)) valido = false;
+        if (!Contraseñas(password)) valido = false;
+        if (!SoloNumeros(telefono, { key: telefono.value })) valido = false;
+        if (!SoloNumeros(celular, { key: celular.value })) valido = false;
+        if (!Curps(curp)) valido = false;
+
+        var sexoSeleccionado = document.querySelector('input[name="Sexo"]:checked');
+        if (!sexoSeleccionado) {
+            document.getElementById("sexo-error").textContent = "Por favor selecciona el sexo.";
+            document.getElementById("sexo-error").style.display = "block";
+            valido = false;
+
+        } else {
+            document.getElementById("sexo-error").textContent = "";
+            document.getElementById("sexo-error").style.display = "none";
+        }
+
+        if (rolId === "" || rolId === "0") {
+            document.getElementById("rol-error").textContent = "Selecciona un rol válido.";
+            document.getElementById("rol-error").style.display = "block";
+            valido = false;
+        } else {
+            document.getElementById("rol-error").textContent = "";
+            document.getElementById("rol-error").style.display = "none";
+        }
+
+        if (!valido) {
+            alert("Corrige los errores antes de enviar.");
+        }
+
+        return valido;
+    }
+
+    function Error(input) {
+        if (input.value == "") {
+            $(input).css("border", "2px solid yellow");
+        } else {
+            $(input).css("border", "2px solid green");
+        }
+
+
+    }
+    function ContraS(input) {
+        var valor = input.value;
+        var longitud = valor.length;
+
+        if (longitud === 0) {            
+            $(input).css("border", "2px solid red");
+        } else if (longitud > 0 && longitud < 6) {           
+            $(input).css("border", "2px solid orange");
+        } else if (longitud >= 6 && longitud < 10) {           
+            $(input).css("border", "2px solid yellow");
+        } else {            
+            $(input).css("border", "2px solid green");
+        }
+    }                       
+    /*
+    function VaciosSN(input) {
+        var Vacio = st/^[0-9]+$/;
+        if (Vacio.te($(input).val())) {
+            $(input).css("border", "3px solid green");
+            limpiarMensajeError(input);
+            return true;
+        } else {
+            setMensajeError(input, "Esta Vacio");
+            animarBorde2(input);
+            return false;
+        }
+    }
+
+    function VaciosSL(input) {
+        var Vacio = /^[a-zA-Z ]+$/;
+        if (Vacio.test($(input).val())) {
+            $(input).css("border", "3px solid green");
+            limpiarMensajeError(input);
+            return true;
+        } else {
+            setMensajeError(input, "Esta Vacio");
+            animarBorde2(input);
+            return false;
+        }
+    }
+    function VaciosLN(input) {
+        var Vacio = /^[a-zA-Z0-9]+$/;
+        if (Vacio.test($(input).val())) {
+            $(input).css("border", "3px solid red");
+            limpiarMensajeError(input);
+            return true;
+        } else {
+            setMensajeError(input, "Esta Vacio");
+            animarBorde2(input);
+            return false;
+        }
+    }
+        */
+
+       function VaciosLN(input) {
+        var valor = $(input).val().trim();
+        if (valor === "") {
+            $(input).css("border", "3px solid red");
+            setMensajeError(input, "Este campo es obligatorio");
+            return true;
+        } else if (valor.length <= 3) {
+            $(input).css("border", "3px solid blue");
+            setMensajeError(input, "Debe tener más de 3 caracteres");
+            return true;
+        } else {
+            $(input).css("border", "3px solid green");
+            // Opcional: ocultar o limpiar mensaje de error si todo está bien
+            setMensajeError(input, "");
+            return false;
+        }
+    }
+
+    function Correos(input) {
+    var valor = $(input).val();
+    var Correo = /^[A-Z0-9._%-]+@@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+
+    if (!valor) {
+        setMensajeError(input, "El correo no puede estar vacío");
+        $(input).css("border", "3px solid red");
+        return false;
+    }
+
+    if (Correo.test(valor)) {
+        $(input).css("border", "3px solid green");
+        limpiarMensajeError(input);
+        return true;
+    } else {
+        setMensajeError(input, "Correo inválido");
+        $(input).css("border", "3px solid red");
+        return false;
+    }
+}
+
+
+    function VaciosCURP(input) {
+        var valor = $(input).val().trim();
+        if (valor === "") {
+            $(input).css("border", "3px solid red");
+            setMensajeError(input, "Este campo es obligatorio");
+            return true;
+        } else if (valor.length <= 17) {
+            $(input).css("border", "3px solid blue");
+            setMensajeError(input, "Debe tener más de 3 caracteres");
+            return true;
+        } else {
+            $(input).css("border", "3px solid green");
+            // Opcional: ocultar o limpiar mensaje de error si todo está bien
+            setMensajeError(input, "");
+            return false;
+        }
+    }
+
+    function VaciosSN(input) {
+        var valor = $(input).val().trim();
+        if (valor === "") {
+            $(input).css("border", "3px solid red");
+            setMensajeError(input, "Este campo es obligatorio");
+            return true;
+        } else if (valor.length <= 8) {
+            $(input).css("border", "3px solid blue");
+            setMensajeError(input, "Debe tener más de 3 caracteres");
+            return true;
+        } else {
+            $(input).css("border", "3px solid green");
+            
+            setMensajeError(input, "");
+            return false;
+        }
+    }
+
+    function VaciosSL(input) {
+        var valor = $(input).val().trim();
+        if (valor === "") {
+            $(input).css("border", "3px solid red");
+            setMensajeError(input, "Este campo es obligatorio");
+            return true;
+        } else if (valor.length <= 3) {
+            $(input).css("border", "3px solid blue");
+            setMensajeError(input, "Debe tener más de 3 caracteres");
+            return true;
+        } else {
+            $(input).css("border", "3px solid green");
+            
+            setMensajeError(input, "");
+            return false;
+        }
+    }
+
+
+
+
+
+    /*
+    function setMensajeError(input, mensaje) {
+        var mensajeError = input.nextElementSibling;
+        if (mensajeError) {
+            mensajeError.textContent = mensaje;
+            mensajeError.style.color = "red";
+            setTimeout(() => { mensajeError.textContent = ""; }, 2000);
+        }
+    }*/
+
+    function limpiarMensajeError(input) {
+        var mensajeError = input.nextElementSibling;
+        if (mensajeError) {
+            mensajeError.textContent = "";
+        }
+    }
+    /*
+    function animarBorde(input) {
+        setTimeout(() => { $(input).css("border", "2px solid red"); }, 10);
+        setTimeout(() => { $(input).css("border", "2px solid yellow"); }, 250);
+        setTimeout(() => { $(input).css("border", "2px solid red"); }, 500);
+        setTimeout(() => { $(input).css("border", "2px solid yellow"); }, 750);
+        setTimeout(() => { $(input).css("border", "2px solid green"); }, 1000);
+    }
+
+    function animarBorde2(input) {
+        setTimeout(() => { $(input).css("border", "2px solid red"); }, 10);
+        setTimeout(() => { $(input).css("border", "2px solid yellow"); }, 250);
+        setTimeout(() => { $(input).css("border", "2px solid red"); }, 500);
+        setTimeout(() => { $(input).css("border", "2px solid yellow"); }, 750);
+        setTimeout(() => { $(input).css("border", "2px solid red"); }, 1000);
+    }
+
+    function SoloLetras(input, event) {
+        var SoloLetra = /^[a-zA-Z ]+$/;
+        var valor = event.key !== undefined ? event.key : input.value;
+        if (SoloLetra.test(valor)) {
+            $(input).css("border", "2px solid green");
+            limpiarMensajeError(input);
+            return true;
+        } else {
+            setMensajeError(input, "Ingresa solo letras");
+            animarBorde(input);
+            return false;
+        }
+    }
+
+    function SoloNumeros(input, event) {
+        var SoloNumero = /^[0-9]+$/;
+
+        // var valor;
+        // if(event.key!= indefinido ){valor= event.key }else{valor = input.value}
+        var valor = event.key !== undefined ? event.key : input.value;
+
+        if (SoloNumero.test(valor)) {
+            $(input).css("border", "2px solid green");
+            limpiarMensajeError(input);
+            return true;
+        } else {
+            setMensajeError(input, "Ingresa solo números");
+            animarBorde(input);
+            return false;
+        }
+    }
+
+    function LetrasYNumeros(input, event) {
+        var LetraONumero = /^[a-zA-Z0-9]+$/;
+        var valor = event.key !== undefined ? event.key : input.value;
+        if (LetraONumero.test(valor)) {
+            $(input).css("border", "2px solid green");
+            limpiarMensajeError(input);
+            return true;
+        } else {
+            setMensajeError(input, "Ingresa solo letras y números");
+            animarBorde(input);
+            return false;
+        }
+    }
+
+
+    function Contraseñas(input) {
+        var Contraseña = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@@$!%*?&])[A-Za-z\d@@$!%*?&]{8,}$/;
+        if (Contraseña.test($(input).val())) {
+            $(input).css("border", "2px solid green");
+            limpiarMensajeError(input);
+            return true;
+        } else {
+            setMensajeError(input, "Ingresa una contraseña fuerte");
+            animarBorde2(input);
+            $(input).css("border", "2px solid red");
+            return false;
+        }
+    }
+
+    function Curps(input) {
+        var Curp = /^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$/;
+        if (Curp.test($(input).val())) {
+            $(input).css("border", "2px solid green");
+            limpiarMensajeError(input);
+            return true;
+        } else {
+            setMensajeError(input, "Ingresa una CURP válida");
+            animarBorde2(input);
+            $(input).css("border", "2px solid red");
+            $(input).val("");
+            return false;
+        }
+    }
+    */
 </script>
 
-<script src="~/Scripts/jquery-3.4.1.js"></script>
-<script src="~/Scripts/Imagen.js"></script>
-<script src="~/Scripts/Usuario/Dropdownlist.js"></script>
-
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@4.0.0/dist/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/lib/jquery/dist/jquery-ui.min.js"></script>
+<script src="~/lib/jquery/dist/jquery-ui.js"></script>

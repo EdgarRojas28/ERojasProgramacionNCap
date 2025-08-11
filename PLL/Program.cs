@@ -27,6 +27,7 @@ namespace PLL
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles();
+            app.MapDefaultControllerRoute();
 
             app.UseRouting();
 
@@ -38,5 +39,8 @@ namespace PLL
 
             app.Run();
         }
+
+
+
     }
 }
