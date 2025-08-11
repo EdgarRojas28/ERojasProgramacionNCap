@@ -20,6 +20,7 @@ class Program
             }
         }
 
+
         catch (Exception e)
         {
             Console.WriteLine("El archivo no se pudo leer: " + e.Message);
