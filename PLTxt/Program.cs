@@ -53,6 +53,7 @@ class Program
             //Console.WriteLine(parts[0]);
             error = error + "Error Aqui Username :" + parts[0] + "| ";
 
+
         }
 
         //Console.WriteLine(parts[1]);//Nombre YA
